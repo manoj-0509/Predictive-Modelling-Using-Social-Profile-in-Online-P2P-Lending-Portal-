@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Loan Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 40px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1><strong>Loan Prediction</strong></h1>
+
+    <form action='/predict' method="POST">
+
+        BorrowerAPR: <input type='text' name='BorrowerAPR'><br>
+
+        CreditScoreRangeLower: <input type='text' name='CreditScoreRangeLower'><br>
+
+        CreditScoreRangeUpper: <input type='text' name='CreditScoreRangeUpper'><br>
+
+        LP_CustomerPrincipalPayments: <input type='text' name='LP_CustomerPrincipalPayments'><br>
+
+        EstimatedReturn: <input type='text' name='EstimatedReturn'><br>
+
+        LenderYield: <input type='text' name='LenderYield'><br>
+
+        LP_CustomerPayments: <input type='text' name='LP_CustomerPayments'><br>
+
+        EstimatedLoss: <input type='text' name='EstimatedLoss'><br>
+
+        BorrowerRate: <input type='text' name='BorrowerRate'><br>
+
+        Class: {{result}} <br>
+
+        <input type='submit' value='Predict'>
+
+    </form>
+
+</body>
+
+</html>

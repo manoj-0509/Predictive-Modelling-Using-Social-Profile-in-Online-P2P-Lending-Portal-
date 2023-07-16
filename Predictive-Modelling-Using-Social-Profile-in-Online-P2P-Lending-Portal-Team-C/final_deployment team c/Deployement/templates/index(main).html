@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Prediction</title>
+    <style>
+        /* Style for the form container */
+        form {
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background-color: #f2f2f2;
+        }
+
+        /* Style the form labels */
+        label {
+          display: inline-block;
+          margin-bottom: 5px;
+          font-weight: bold;
+          color: #333;
+          width: 45%;
+        }
+
+        /* Style for the form input fields */
+        input[type="text"] {
+          width: 50%;
+          display: inline-block;
+          padding: 10px;
+          margin-bottom: 15px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          box-sizing: border-box;
+        }
+
+        /* Style for the form submit button */
+        button[type="submit"] {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          margin-top: 20px;
+          border: none;
+          border-radius: 5px;
+          background-color: #4CAF50;
+          color: white;
+          font-size: 16px;
+          cursor: pointer;
+        }
+
+        /* Style for the results container */
+        .results {
+          max-width: 600px;
+          margin: 20px auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background-color: #f2f2f2;
+        }
+
+        /* Style for the results headings */
+        .results h1 {
+          margin-top: 0;
+          font-size: 24px;
+          font-weight: bold;
+          color: #333;
+        }
+
+        /* Style for the results paragraphs */
+        .results p {
+          margin-bottom: 10px;
+          font-size: 16px;
+          color: #333;
+        }
+
+        /* Style for the form heading */
+        h1 {
+          text-align: center;
+          font-size: 36px;
+          margin-bottom: 30px;
+          color: #333;
+        }
+
+        /* Style for the form container background */
+        body {
+          background-color: #f7f7f7;
+        }
+
+        /* Style for the error messages */
+        .error {
+          color: red;
+          font-size: 14px;
+          margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Loan Prediction</h1>
+
+    <form method="POST" action="/predict" onsubmit="return validateForm()">
+        <label for="LP_CustomerPayments">LP_Customer Payments:</label>
+        <input type="text" name="LP_CustomerPayments" id="LP_CustomerPayments"><br>
+        <span id="LP_CustomerPaymentsError" class="error"></span><br>
+
+        <label for="LoanDateYear">Loan Date Year:</label>
+        <input type="text" name="LoanDateYear" id="LoanDateyear"><br>
+        <span id="LoanDateYearError" class="error"></span><br>
+
+        <label for="Month">Month:</label>
+        <input type="text" name="Month" id="month"><br>
+        <span id="MonthError" class="error"></span><br>
+
+        <label for="MaturityDateOriginalYear">Maturity Date Original Year:</label>
+        <input type="text" name="MaturityDateOriginalYear" id="MaturityDatOriginalyear"><br>
+        <span id="MaturityDateOriginalYearError" class="error"></span><br>
+            
+        <label for="MaturityDateOriginalMonth">Maturity Date Original Month:</label>
+        <input type="text" name="MaturityDateOriginalMonth" id="MaturityDateOriginalmonth"><br>
+        <span id="MaturityDateOriginalMonthError" class="error"></span><br>
+            
+        <label for="LP_CustomerPrincipalPayments">LP_Customer Principal Payments:</label>
+        <input type="text" name="LP_CustomerPrincipalPayments" id="LP_CustomerPrincipalPayments"><br>
+        <span id="LP_CustomerPrincipalPaymentsError" class="error"></span><br>
+            
+        <label for="TradesNeverDelinquent(Percentage)">Trades Never Delinquent (Percentage):</label>
+        <input type="text" name="TradesNeverDelinquent(Percentage)" id="TradesNeverDelinquent (percentage)"><br>
+        <span id="TradesNeverDelinquentError" class="error"></span><br>
+
+        <label for="AvailableBankcardCredit">Available Bank Card Credit:</label>
+        <input type="text" name="AvailableBankcardCredit" id="AvailableBankcardCredit"><br>
+        <span id="AvailableBankcardCreditError" class="error"></span><br>
+            
+        <label for="TotalInquiries">Total Inquiries:</label>
+        <input type="text" name="TotalInquiries" id="TotalInquiries"><br>
+        <span id="TotalInquiriesError" class="error"></span><br>
+            
+        <label for="InterestAmount">Interest Amount:</label>
+        <input type="text" name="InterestAmount" id="InterestAmount"><br>
+        <span id="InterestAmountError" class="error"></span><br>
+
+        <label for="TotalAmount">Total Amount:</label>
+        <input type="text" name="TotalAmount" id="TotalAmount"><br>
+        <span id="TotalAmountError" class="error"></span><br>
+            
+        <label for="StatedMonthlyIncome">Stated Monthly Income:</label>
+        <input type="text" name="StatedMonthlyIncome" id="StatedMonthlyIncome"><br>
+        <span id="StatedMonthlyIncomeError" class="error"></span><br>
+            
+        <label for="DebtToIncomeRatio">Debt To Income Ratio:</label>
+        <input type="text" name="DebtToIncomeRatio" id="DebtToIncomeRatio"><br>
+        <span id="DebtToIncomeRatioError" class="error"></span><br>
+            
+        <label for="IncomeVerifiable">Income Verifiable:</label>
+        <input type="text" name="IncomeVerifiable" id="IncomeVerifiable"><br>
+        <span id="IncomeVerifiableError" class="error"></span><br>
+            
+        <label for="LoanOriginalAmount">Loan Original Amount:</label>
+        <input type="text" name="LoanOriginalAmount" id="LoanOriginalAmount"><br>
+        <span id="LoanOriginalAmountError" class="error"></span><br>
+            
+        <label for="BorrowerRate">Borrower Rate:</label>
+        <input type="text" name="BorrowerRate" id="BorrowerRate"><br>
+        <span id="BorrowerRateError" class="error"></span><br>
+            
+        <label for="LoanTenure">Loan Tenure:</label>
+        <input type="text" name="LoanTenure" id="LoanTenure"><br>
+        <span id="LoanTenureError" class="error"></span><br>
+            
+        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    </form>
+
+    <div class="results">
+        <h1>Loan Prediction Results</h1>
+        <p>EMI: {{ EMI }}</p>
+        <p>ROI: {{ ROI }}</p>
+        <p>Eligible Loan Amount: {{ EligibleLoanAmount }}</p>
+    </div>
+
+    <script>
+        function validateForm() {
+            var LP_CustomerPayments = document.getElementById("LP_CustomerPayments").value;
+            var LoanDateYear = document.getElementById("LoanDateyear").value;
+            var Month = document.getElementById("month").value;
+            var MaturityDateOriginalYear = document.getElementById("MaturityDatOriginalyear").value;
+            var MaturityDateOriginalMonth = document.getElementById("MaturityDateOriginalmonth").value;
+            var LP_CustomerPrincipalPayments = document.getElementById("LP_CustomerPrincipalPayments").value;
+            var TradesNeverDelinquent = document.getElementById("TradesNeverDelinquent (percentage)").value;
+            var AvailableBankcardCredit = document.getElementById("AvailableBankcardCredit").value;
+            var TotalInquiries = document.getElementById("TotalInquiries").value;
+            var InterestAmount = document.getElementById("InterestAmount").value;
+            var TotalAmount = document.getElementById("TotalAmount").value;
+            var StatedMonthlyIncome = document.getElementById("StatedMonthlyIncome").value;
+            var DebtToIncomeRatio = document.getElementById("DebtToIncomeRatio").value;
+            var IncomeVerifiable = document.getElementById("IncomeVerifiable").value;
+            var LoanOriginalAmount = document.getElementById("LoanOriginalAmount").value;
+            var BorrowerRate = document.getElementById("BorrowerRate").value;
+            var LoanTenure = document.getElementById("LoanTenure").value;
+
+            var LP_CustomerPaymentsError = document.getElementById("LP_CustomerPaymentsError");
+            var LoanDateYearError = document.getElementById("LoanDateYearError");
+            var MonthError = document.getElementById("MonthError");
+            var MaturityDateOriginalYearError = document.getElementById("MaturityDateOriginalYearError");
+            var MaturityDateOriginalMonthError = document.getElementById("MaturityDateOriginalMonthError");
+            var LP_CustomerPrincipalPaymentsError = document.getElementById("LP_CustomerPrincipalPaymentsError");
+            var TradesNeverDelinquentError = document.getElementById("TradesNeverDelinquentError");
+            var AvailableBankcardCreditError = document.getElementById("AvailableBankcardCreditError");
+            var TotalInquiriesError = document.getElementById("TotalInquiriesError");
+            var InterestAmountError = document.getElementById("InterestAmountError");
+            var TotalAmountError = document.getElementById("TotalAmountError");
+            var StatedMonthlyIncomeError = document.getElementById("StatedMonthlyIncomeError");
+            var DebtToIncomeRatioError = document.getElementById("DebtToIncomeRatioError");
+            var IncomeVerifiableError = document.getElementById("IncomeVerifiableError");
+            var LoanOriginalAmountError = document.getElementById("LoanOriginalAmountError");
+            var BorrowerRateError = document.getElementById("BorrowerRateError");
+            var LoanTenureError = document.getElementById("LoanTenureError");
+
+            var isValid = true;
+
+            if (LP_CustomerPayments == "") {
+                LP_CustomerPaymentsError.innerHTML = "LP_Customer Payments is required";
+                isValid = false;
+            } else {
+                LP_CustomerPaymentsError.innerHTML = "";
+            }
+
+            if (LoanDateYear == "") {
+                LoanDateYearError.innerHTML = "Loan Date Year is required";
+                isValid = false;
+            } else {
+                LoanDateYearError.innerHTML = "";
+            }
+
+            if (Month == "") {
+                MonthError.innerHTML = "Month is required";
+                isValid = false;
+            } else {
+                MonthError.innerHTML = "";
+            }
+
+            if (MaturityDateOriginalYear == "") {
+                MaturityDateOriginalYearError.innerHTML = "Maturity Date Original Year is required";
+                isValid = false;
+            } else {
+                MaturityDateOriginalYearError.innerHTML = "";
+            }
+
+            if (MaturityDateOriginalMonth == "") {
+                MaturityDateOriginalMonthError.innerHTML = "Maturity Date Original Month is required";
+                isValid = false;
+            } else {
+                MaturityDateOriginalMonthError.innerHTML = "";
+            }
+
+            if (LP_CustomerPrincipalPayments == "") {
+                LP_CustomerPrincipalPaymentsError.innerHTML = "LP_Customer Principal Payments is required";
+                isValid = false;
+            } else {
+                LP_CustomerPrincipalPaymentsError.innerHTML = "";
+            }
+
+            if (TradesNeverDelinquent == "") {
+                TradesNeverDelinquentError.innerHTML = "Trades Never Delinquent (Percentage) is required";
+                isValid = false;
+            } else {
+                TradesNeverDelinquentError.innerHTML = "";
+            }
+
+            if (AvailableBankcardCredit == "") {
+                AvailableBankcardCreditError.innerHTML = "Available Bank Card Credit is required";
+                isValid = false;
+            } else {
+                AvailableBankcardCreditError.innerHTML = "";
+            }
+
+            if (TotalInquiries == "") {
+                TotalInquiriesError.innerHTML = "Total Inquiries is required";
+                isValid = false;
+            } else {
+                TotalInquiriesError.innerHTML = "";
+            }
+
+            if (InterestAmount == "") {
+                InterestAmountError.innerHTML = "Interest Amount is required";
+                isValid = false;
+            } else {
+                InterestAmountError.innerHTML = "";
+            }
+
+            if (TotalAmount == "") {
+                TotalAmountError.innerHTML = "Total Amount is required";
+                isValid = false;
+            } else {
+                TotalAmountError.innerHTML = "";
+            }
+
+            if (StatedMonthlyIncome == "") {
+                StatedMonthlyIncomeError.innerHTML = "Stated Monthly Income is required";
+                isValid = false;
+            } else {
+                StatedMonthlyIncomeError.innerHTML = "";
+            }
+
+            if (DebtToIncomeRatio == "") {
+                DebtToIncomeRatioError.innerHTML = "Debt To Income Ratio is required";
+                isValid = false;
+            } else {
+                DebtToIncomeRatioError.innerHTML = "";
+            }
+
+            if (IncomeVerifiable == "") {
+                IncomeVerifiableError.innerHTML = "Income Verifiable is required";
+                isValid = false;
+            } else {
+                IncomeVerifiableError.innerHTML = "";
+            }
+
+            if (LoanOriginalAmount == "") {
+                LoanOriginalAmountError.innerHTML = "Loan Original Amount is required";
+                isValid = false;
+            } else {
+                LoanOriginalAmountError.innerHTML = "";
+            }
+
+            if (BorrowerRate == "") {
+                BorrowerRateError.innerHTML = "Borrower Rate is required";
+                isValid = false;
+            } else {
+                BorrowerRateError.innerHTML = "";
+            }
+
+            if (LoanTenure == "") {
+                LoanTenureError.innerHTML = "Loan Tenure is required";
+                isValid = false;
+            } else {
+                LoanTenureError.innerHTML = "";
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Prediction</title>
+    <style>
+        /* Styles for the form containers */
+        .form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  margin-bottom: 20px;
+  display: inline-block;
+  vertical-align: top;
+  width: 45%;
+}
+
+
+        /* Styles for the form labels */
+        .form-container label {
+          display: inline-block;
+          margin-bottom: 5px;
+          font-weight: bold;
+          color: #333;
+          width: 45%;
+        }
+
+        /* Styles for the form input fields */
+        .form-container input[type="text"] {
+          width: 50%;
+          display: inline-block;
+          padding: 10px;
+          margin-bottom: 15px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          box-sizing: border-box;
+        }
+
+        /* Style for the form submit button */
+         button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+}
+
+        /* Style for the results container */
+        .results {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+
+        }
+
+        /* Style for the results headings */
+        .results h1 {
+          margin-top: 0;
+          font-size: 24px;
+          font-weight: bold;
+          color: #333;
+        }
+
+        /* Style for the results paragraphs */
+        .results p {
+          margin-bottom: 10px;
+          font-size: 16px;
+          color: #333;
+        }
+
+        /* Style for the form heading */
+        h1 {
+          text-align: center;
+          font-size: 36px;
+          margin-bottom: 30px;
+          color: #333;
+        }
+
+        /* Style for the form container background */
+        body {
+          background-color: #f7f7f7;
+        }
+
+        /* Style for the error messages */
+        .error {
+          color: red;
+          font-size: 14px;
+          margin-top: 5px;
+        }
+    </style>
+    <script>
+        function validateForm(event) {
+          console.log("Form submitted!");
+            event.preventDefault(); // Prevent form submission if validation fails
+    
+            // Get the input fields from both forms
+            var formInputs = document.getElementById("parentForm").getElementsByTagName("input");
+    
+            // Validate form inputs
+            for (var i = 0; i < formInputs.length; i++) {
+                if (formInputs[i].value === "") {
+                    var errorSpan = formInputs[i].parentNode.nextElementSibling;
+                    errorSpan.innerHTML = formInputs[i].name + " is required";
+                    return; // Stop further validation if any input is empty
+                }
+            }
+    
+    
+            // If all inputs are filled, submit the forms
+            document.getElementById("parentForm").submit();
+        }
+    </script>
+</head>
+<body>
+  
+  <form id="parentForm" method="POST" action="/predict" onsubmit="return validateForm(event)">
+    <div class="form-container">
+    <h1>Loan Prediction</h1>
+        <label for="LP_CustomerPayments">LP_Customer Payments:</label>
+        <input type="text" name="LP_CustomerPayments" id="LP_CustomerPayments"><br>
+        <span id="LP_CustomerPaymentsError" class="error"></span><br>
+
+        <label for="LoanDateYear">Loan Date Year:</label>
+        <input type="text" name="LoanDateYear" id="LoanDateYear"><br>
+        <span id="LoanDateYearError" class="error"></span><br>
+
+        <label for="Month">Month:</label>
+        <input type="text" name="Month" id="Month"><br>
+        <span id="MonthError" class="error"></span><br>
+
+        <label for="MaturityDateOriginalYear">Maturity Date Original Year:</label>
+        <input type="text" name="MaturityDateOriginalYear" id="MaturityDateOriginalYear"><br>
+        <span id="MaturityDateOriginalYearError" class="error"></span><br>
+            
+        <label for="MaturityDateOriginalMonth">Maturity Date Original Month:</label>
+        <input type="text" name="MaturityDateOriginalMonth" id="MaturityDateOriginalMonth"><br>
+        <span id="MaturityDateOriginalMonthError" class="error"></span><br>
+            
+        <label for="LP_CustomerPrincipalPayments">LP_Customer Principal Payments:</label>
+        <input type="text" name="LP_CustomerPrincipalPayments" id="LP_CustomerPrincipalPayments"><br>
+        <span id="LP_CustomerPrincipalPaymentsError" class="error"></span><br>
+            
+        <label for="TradesNeverDelinquent(Percentage)">Trades Never Delinquent (Percentage):</label>
+        <input type="text" name="TradesNeverDelinquent(Percentage)" id="TradesNeverDelinquent(Percentage)"><br>
+        <span id="TradesNeverDelinquentError" class="error"></span><br>
+
+        <label for="AvailableBankcardCredit">Available Bank Card Credit:</label>
+        <input type="text" name="AvailableBankcardCredit" id="AvailableBankcardCredit"><br>
+        <span id="AvailableBankcardCreditError" class="error"></span><br>
+            
+        <label for="TotalInquiries">Total Inquiries:</label>
+        <input type="text" name="TotalInquiries" id="TotalInquiries"><br>
+        <span id="TotalInquiriesError" class="error"></span><br>
+            
+        <label for="InterestAmount">Interest Amount:</label>
+        <input type="text" name="InterestAmount" id="InterestAmount"><br>
+        <span id="InterestAmountError" class="error"></span><br>
+
+        <label for="TotalAmount">Total Amount:</label>
+        <input type="text" name="TotalAmount" id="TotalAmount"><br>
+        <span id="TotalAmountError" class="error"></span><br>
+            
+        <label for="StatedMonthlyIncome">Stated Monthly Income:</label>
+        <input type="text" name="StatedMonthlyIncome" id="StatedMonthlyIncome"><br>
+        <span id="StatedMonthlyIncomeError" class="error"></span><br>
+            
+        <label for="DebtToIncomeRatio">Debt To Income Ratio:</label>
+        <input type="text" name="DebtToIncomeRatio" id="DebtToIncomeRatio"><br>
+        <span id="DebtToIncomeRatioError" class="error"></span><br>
+            
+        <label for="IncomeVerifiable">Income Verifiable:</label>
+        <input type="text" name="IncomeVerifiable" id="IncomeVerifiable"><br>
+        <span id="IncomeVerifiableError" class="error"></span><br>
+            
+        <label for="LoanOriginalAmount">Loan Original Amount:</label>
+        <input type="text" name="LoanOriginalAmount" id="LoanOriginalAmount"><br>
+        <span id="LoanOriginalAmountError" class="error"></span><br>
+            
+        <label for="BorrowerRate">Borrower Rate:</label>
+        <input type="text" name="BorrowerRate" id="BorrowerRate"><br>
+        <span id="BorrowerRateError" class="error"></span><br>
+            
+        <label for="LoanTenure">Loan Tenure:</label>
+        <input type="text" name="LoanTenure" id="LoanTenure"><br>
+        <span id="LoanTenureError" class="error"></span><br>
+            
+    </div>
+    <div class="form-container">
+        <h1>Loan Prediction(Classification)</h1>
+    
+            <label for="BorrowerAPR">BorrowerAPR:</label>
+            <input type="text" name="BorrowerAPR" id="BorrowerAPR"><br>
+            <span id="BerrowerAPRError" class="error"></span><br>
+    
+            <label for="CreditScoreRangeLower">Credit Score Range Lower:</label>
+            <input type="text" name="CreditScoreRangeLower" id="CreditScoreRangeLower"><br>
+            <span id="CreditScoreRangeLowerError" class="error"></span><br>
+    
+            <label for="CreditScoreRangeUpper">Credit Score Range Upper:</label>
+            <input type="text" name="CreditScoreRangeUpper" id="CreditScoreRangeUpper"><br>
+            <span id="CreditScoreRangeUpperError" class="error"></span><br>
+    
+            <label for="LP_CustomerPrincipalPayments2">LP_Customer Principal Payments:</label>
+            <input type="text" name="LP_CustomerPrincipalPayments2" id="LP_CustomerPrincipalPayments2"><br>
+            <span id="LP_CustomerPrincipalPayments2Error" class="error"></span><br>
+    
+            <label for="EstimatedReturn">Estimated Return:</label>
+            <input type="text" name="EstimatedReturn" id="EstimatedReturn"><br>
+            <span id="EstimatedReturnError" class="error"></span><br>
+    
+            <label for="LenderYield">LenderYield:</label>
+            <input type="text" name="LenderYield" id="LenderYield"><br>
+            <span id="LenderYieldError" class="error"></span><br>
+    
+            <label for="LenderYield_1">LenderYield.1:</label>
+            <input type="text" name="LenderYield_1" id="LenderYield_1"><br>
+            <span id="LenderYield_1Error" class="error"></span><br>
+    
+            <label for="LP_CustomerPayments2">LP_Customer Payments:</label>
+            <input type="text" name="LP_CustomerPayments2" id="LP_CustomerPayments2"><br>
+            <span id="LP_CustomerPayments2Error" class="error"></span><br>
+                
+            <label for="EstimatedLoss">Estimated Loss:</label>
+            <input type="text" name="EstimatedLoss" id="EstimatedLoss"><br>
+            <span id="EstimatedLossError" class="error"></span><br>
+    
+            <label for="BorrowerRate2">Borrower Rate:</label>
+            <input type="text" name="BorrowerRate2" id="BorrowerRate2"><br>
+            <span id="BorrowerRate2Error" class="error"></span><br>
+
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div class="results">
+        <h1>Loan Prediction Results</h1>
+        <p>EMI: {{ EMI }}</p>
+        <p>ROI: {{ ROI }}</p>
+        <p>Eligible Loan Amount: {{ EligibleLoanAmount }}</p>
+        <p>Classifier: {{ Classifier }}</p>
+    </div>
+    
+</body>
+</html>
